@@ -88,14 +88,21 @@
 
 - (NSString *)getDayName:(NSDate*) date {
     
-    
-    return nil;
+    NSDateFormatter *format = [NSDateFormatter new];
+    format.dateFormat = @"EE";
+    format.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"ru_RU"];
+    NSLog(@"%@", [format stringFromDate:date]);
+    return [format stringFromDate:date];
 }
 
 #pragma mark - Fourth
 
 - (BOOL)isDateInThisWeek:(NSDate *)date {
-    return NO;
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+       NSDateComponents *currentDateComponents = [calendar components:(NSCalendarUnitWeekOfYear | NSCalendarUnitYear) fromDate:[NSDate now]];
+       NSDateComponents *dateComponents = [calendar components:(NSCalendarUnitWeekOfYear | NSCalendarUnitYear) fromDate:date];
+    return (currentDateComponents.year == dateComponents.year) && (currentDateComponents.weekOfYear == dateComponents.weekOfYear);;
 }
 
 @end
